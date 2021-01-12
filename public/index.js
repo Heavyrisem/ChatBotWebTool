@@ -4,7 +4,7 @@ let Labels = [];
 
 const GetLabels = () => {
     WarnDisplay("서버 정보 가져오는 중..")
-    SendData({}, 'http://kkds.kr/ChatBotDataLabels', Response => {
+    SendData({}, 'https://kkds.kr/ChatBotDataLabels', Response => {
         Labels = JSON.parse(Response);
         console.log(Response)
         WarnDisplay("입력 후 확인버튼을 눌러 주세요")
@@ -33,7 +33,7 @@ const CheckValues = () => {
         }
     }
 
-    SendData(Inputs, 'http://kkds.kr/ChatBotDataUpload', Response => {
+    SendData(Inputs, 'https://kkds.kr/ChatBotDataUpload', Response => {
         WarnDisplay(Response);
         GetLabels();
     });
