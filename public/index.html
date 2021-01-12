@@ -50,14 +50,14 @@
 
             <div class="Title">챗봇 데이터 추가</div>
             <div class="inputArea">
-                <input id="tag" type="text" placeholder="태그(라벨)" onfocus="showSimilarList()" onclick="showSimilarList()" oninput="CalculateSimilar()">
+                <input id="tag" type="text" placeholder="태그 예)아침_인사" onfocus="showSimilarList()" onclick="showSimilarList()" oninput="CalculateSimilar()">
                     <ul id="SimilarList" class="SimilarList">
                         <li>태그를 골라 주세요</li>
                     </ul>
                 </input>
                 <br />
-                <input id="patterns" type="text" placeholder="패턴" /> <br />
-                <input id="responses" type="text" placeholder="응답" /> <br />
+                <input id="patterns" type="text" placeholder="패턴 예)좋은 아침!" /> <br />
+                <input id="responses" type="text" placeholder="응답 예)반가워! 좋은아침" /> <br />
                 <button class="SendBtn" onclick="CheckValues()">전송</button>
                 <div id="WarnMsg" class="WarnMsg"></div>
             </div>
