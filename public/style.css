@@ -73,6 +73,7 @@ html, body {
     background-color: rgb(253, 253, 253);
 
     padding: .5rem;
+    border-radius: 0;
 }
 .inputArea input:focus {
     outline: none;
