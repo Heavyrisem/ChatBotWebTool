@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>챗봇 데이터 작성 툴</title>
+        <link href="./style.css" rel="stylesheet">
+        <script src="./index.js"></script>
+        <script src="./similar.js"></script>
+        <script>
+            window.onload = GetLabels;
+
+            function CalculateSimilar(e) {
+                event.preventDefault();
+                event.stopPropagation();
+                let Value = document.getElementById("tag").value;
+                let ListView = document.getElementById("SimilarList");
+                
+                let Acc = [];
+                
+                for (const Label of Labels) {
+                    Acc.push({
+                        label: Label,
+                        acc: parseInt(Similar(Label, Value))
+                    })
+                    // console.log(Label)
+                }
+                Acc.sort((a, b) => b.acc-a.acc);
+                
+                ListView.innerHTML = '';
+                for (const Label of Acc) {
+                    let li = document.createElement('li');
+                    li.innerHTML = Label.label + " " + Label.acc+"%";
+                    li.onclick = (e) => {
+                        document.getElementById("tag").value = Label.label
+                    }
+                    ListView.append(li);
+                }
+            }
+            function showSimilarList() {
+                event.stopPropagation()
+                document.getElementById("SimilarList").style.display = "block";
+            }
+            function hideSimilarList() {
+                document.getElementById("SimilarList").style.display = "none";
+            }
+        </script>
+    </head>
+
+    <body onclick="hideSimilarList()">
+        <div class="Card">
+
+            <div class="Title">챗봇 데이터 추가</div>
+            <div class="inputArea">
+                <input id="tag" type="text" placeholder="태그(라벨)" onfocus="showSimilarList()" onclick="showSimilarList()" oninput="CalculateSimilar()">
+                    <ul id="SimilarList" class="SimilarList">
+                        <li>태그를 골라 주세요</li>
+                    </ul>
+                </input>
+                <br />
+                <input id="patterns" type="text" placeholder="패턴" /> <br />
+                <input id="responses" type="text" placeholder="응답" /> <br />
+                <button class="SendBtn" onclick="CheckValues()">전송</button>
+                <div id="WarnMsg" class="WarnMsg"></div>
+            </div>
+            
+        </div>
+    </body>
+</html>

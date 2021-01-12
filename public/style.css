@@ -1,0 +1,120 @@
+@font-face {
+    font-family: NanumSquare;
+    src: url("./fonts/NanumSquareRoundB.ttf");
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+
+    font-family: NanumSquare;
+    background-color: rgb(241, 241, 241);
+    text-align: center;
+
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+}
+
+.Card {
+    /* width: 45rem; */
+    background-color: white;
+    border-radius: 10px;
+
+    margin: auto;
+    padding: 2rem 5rem;
+    text-align: center;
+
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.Title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.SimilarList {
+    display: none;
+    position: absolute;
+    transform: translate(-50%);
+    left: 50%;
+
+    background-size: cover;
+    background-color: white;
+    box-shadow: 0px 3px 20px 0px rgb(218, 218, 218);
+
+    width: 80%;
+    padding: .5rem;
+}
+.SimilarList {
+    margin: 0;
+    list-style: none;
+}
+.SimilarList li {
+    line-height: 2rem;
+    cursor: pointer;
+}
+.SimilarList li:hover {
+    background-color:rgb(245, 245, 245);
+}
+
+.inputArea {
+    margin: 1rem 2rem;
+    position: relative;
+}
+.inputArea input {
+    margin-bottom: .5rem;
+    width: 80%;
+    font-size: 1.2rem;
+
+    border: 0 none;
+    border-bottom: solid 2px rgb(138, 138, 138);
+    background-color: rgb(253, 253, 253);
+
+    padding: .5rem;
+}
+.inputArea input:focus {
+    outline: none;
+    border-bottom: solid 2px rgb(94, 56, 230);
+    text-decoration: none;
+}
+
+.SendBtn {
+    margin: auto;
+    margin-top: 2rem;
+    width: 90%;
+    height: 2.5rem;
+    display: block;
+
+    font-weight: bold;
+    background: linear-gradient( 48deg, rgb(166, 56, 230), rgb(230, 56, 192));
+    border: none;
+    color: white;
+
+    transition: background 0.5s;
+
+    border-radius: 3px;
+}
+.SendBtn:hover {
+    animation-name: BtnAnim;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+}
+
+.WarnMsg {
+    /* display: none; */
+    color: rgb(141, 141, 141);
+
+    font-size: .9rem;
+    margin-top: .8rem;
+}
+
+@keyframes BtnAnim {
+    0% {
+        background: rgb(166, 56, 230)
+    }
+    100% {
+        background: rgb(0, 211, 200)
+    }
+}
