@@ -1,22 +1,42 @@
-import { opine, serveStatic, json } from "https://deno.land/x/opine@1.0.2/mod.ts";
+import { opine, serveStatic, json, urlencoded } from "https://deno.land/x/opine@1.0.2/mod.ts";
 import { intentsT, intentT } from "./Types.ts";
-
+import * as log from "./consolelog.ts";
+log.init('Server');
 const app = opine();
 const PATH = "./intents.json";
 
 let intents: intentsT;
 
+app.use(async (req, res, next) => {
+	if (!(req.url.indexOf("index.html") == -1) || req.url != '/') return next();
+	
+    const UserAgent = req.headers.get('User-Agent');
+    if (UserAgent != undefined && UserAgent != null) {
+		if (UserAgent.indexOf("Headless") != -1) {
+			console.log("System", "BotDetected", UserAgent, req.headers.get('x-forwarded-for'))
+			return res.send("오류가 발생했습니다.");
+		}
+	}
+	
+	console.log("System", "HTML Request", UserAgent, req.headers.get('x-forwarded-for'));
+	res.set('Content-Type', 'text/Html');
+	res.end(await Deno.readTextFile('./public/index.html'));
+	next();
+})
 app.use(serveStatic('./public'));
 app.use(json());
+app.use(urlencoded()); // for parsing application/x-www-form-urlencoded
 
-app.get("/", (req, res) => {
-	res.redirect("/index.html");
-})
+// app.get("/", (req, res) => {
+// 	res.redirect("/index.html");
+// })
 
 app.post("/ChatBotDataUpload", async (req, res) => {
 	if (!req.body) return res.send("Server: 데이터가 비었습니다.");
 	let Inputs: intentT = req.body;
-	
+	if (!Inputs.tag || !Inputs.patterns || !Inputs.responses) return res.send("Server: 데이터가 비었습니다.");
+	console.log("AddChatBotData", req.headers.get('User-Agent'), req.headers.get('x-forwarded-for'));
+
     for (const field in Inputs) {
         if (Inputs[field] == '') {
             res.send(`Server: ${field} 값은 공백일 수 없습니다.`);
@@ -28,7 +48,9 @@ app.post("/ChatBotDataUpload", async (req, res) => {
 				else break;
 			}
             default: {
-				if(typeof Inputs[field] != "object") return res.send("Server: 데이터 타입이 올바르지 않습니다.");
+				if(typeof Inputs[field] != "object") {
+					Inputs[field] = (Inputs[field] as string).split(",");
+				}
 				else break;
             }
         }
@@ -39,9 +61,9 @@ app.post("/ChatBotDataUpload", async (req, res) => {
 		if (intent.tag == Inputs.tag) {
 			found = true;
 			let intentUpdate = intents;
-
-			intentUpdate.intents[idx].patterns = [...new Set(intentUpdate.intents[idx].patterns.concat(Inputs.patterns))];
-			intentUpdate.intents[idx].responses = [...new Set(intentUpdate.intents[idx].responses.concat(Inputs.responses))];
+			
+			intentUpdate.intents[idx].patterns = [...new Set(intentUpdate.intents[idx].patterns.concat(Inputs.patterns as string))];
+			intentUpdate.intents[idx].responses = [...new Set(intentUpdate.intents[idx].responses.concat(Inputs.responses as string))];
 			intentUpdate.intents[idx].context = [""];
 
 			if(await WriteJSON(JSON.stringify(intentUpdate))) {
@@ -81,6 +103,16 @@ app.post("/ChatBotDataLabels", (req, res) => {
 	}
 
 	res.send(labels);
+})
+
+app.post("/ChatBotJSON", (req, res) => {
+	if (req.body.pw == "ChatBotJSON") {
+		console.log("JSONDownload", req.headers.get('User-Agent'), req.headers.get('x-forwarded-for'));
+		res.download('./intents.json');
+	} else {
+		console.log("JSONDownload Rejected", req.headers.get('User-Agent'), req.headers.get('x-forwarded-for'));
+		res.sendStatus(404).send("");
+	}
 })
 
 const WriteJSON = (JSONData: string): Promise<boolean> => {

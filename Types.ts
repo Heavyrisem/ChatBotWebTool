@@ -6,7 +6,7 @@ export interface intentsT {
 export interface intentT {
     [name: string]: string | Array<string> | undefined,
     tag: string,
-    patterns: Array<string>,
-    responses: Array<string>,
-    context?: Array<string>
+    patterns: Array<string> | string,
+    responses: Array<string> | string,
+    context?: Array<string> | string
 }
