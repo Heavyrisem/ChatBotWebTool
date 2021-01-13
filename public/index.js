@@ -35,6 +35,9 @@ const CheckValues = () => {
 
     SendData(Inputs, 'https://kkds.kr/ChatBotDataUpload', Response => {
         WarnDisplay(Response);
+        document.getElementById("tag").value = "";
+        document.getElementById("patterns").value = "";
+        document.getElementById("responses").value = "";
         GetLabels();
     });
 }
