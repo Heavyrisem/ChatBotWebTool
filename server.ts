@@ -19,8 +19,8 @@ app.use(async (req, res, next) => {
 	}
 	
 	console.log("System", "HTML Request", UserAgent, req.headers.get('x-forwarded-for'));
-	res.set('Content-Type', 'text/Html');
-	res.end(await Deno.readTextFile('./public/index.html'));
+	// res.set('Content-Type', 'text/Html');
+	// res.end(await Deno.readTextFile('./public/index.html'));
 	next();
 })
 app.use(serveStatic('./public'));
