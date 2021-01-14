@@ -18,7 +18,7 @@ html, body {
 }
 
 .Card {
-    /* width: 40%; */
+    /* min-width: 50%; */
     background-color: white;
     border-radius: 10px;
 
