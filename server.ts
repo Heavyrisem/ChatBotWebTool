@@ -128,8 +128,8 @@ const WriteJSON = (JSONData: string): Promise<boolean> => {
 	})
 }
 
-app.listen(80, async () => {
+app.listen(3333, async () => {
 	let read = await Deno.readTextFile(PATH);
 	intents = JSON.parse(read);
-	console.log("Server Running: http://kkds.kr:"+80);
+	console.log("Server Running: http://kkds.kr");
 })
