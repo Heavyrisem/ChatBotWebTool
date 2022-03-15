@@ -1,4 +1,4 @@
-import { opine, serveStatic, json, urlencoded } from "https://deno.land/x/opine@1.0.2/mod.ts";
+import { opine, serveStatic, json, urlencoded } from "https://deno.land/x/opine/mod.ts";
 import { intentsT, intentT } from "./Types.ts";
 import * as log from "./consolelog.ts";
 log.init('Server');

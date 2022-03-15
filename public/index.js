@@ -1,10 +1,10 @@
 let Labels = [];
-
+const SERVER_ADDR = 'http://localhost:3333';
 
 
 const GetLabels = () => {
     WarnDisplay("서버 정보 가져오는 중..")
-    SendData({}, 'https://kkds.kr/ChatBotDataLabels', Response => {
+    SendData({}, SERVER_ADDR + '/ChatBotDataLabels', Response => {
         Labels = JSON.parse(Response);
         console.log(Response)
         WarnDisplay("입력 후 확인버튼을 눌러 주세요")
@@ -33,7 +33,7 @@ const CheckValues = () => {
         }
     }
 
-    SendData(Inputs, 'https://kkds.kr/ChatBotDataUpload', Response => {
+    SendData(Inputs, SERVER_ADDR + '/ChatBotDataUpload', Response => {
         WarnDisplay(Response);
         document.getElementById("tag").value = "";
         document.getElementById("patterns").value = "";
@@ -72,6 +72,6 @@ const SendData = (Data, URL, CallBack) => {
 const WarnDisplay = (Msg) => {
     if (!Msg) return console.log("Null message recived");
     let Warn = document.getElementById("WarnMsg");
-    
+
     Warn.innerText = Msg;
 }
